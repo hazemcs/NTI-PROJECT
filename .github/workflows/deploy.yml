@@ -56,8 +56,8 @@ jobs:
       - name: Create Inventory
         run: |
           echo "[web]" > inventory.ini
-          echo "$PUBLIC_IP" >> inventory.ini
-          
+          echo "$PUBLIC_IP ansible_user=ec2-user" >> inventory.ini
+
       - name: Test SSH
         run: |
           ssh \
@@ -68,7 +68,9 @@ jobs:
 
       - name: Run Ansible
         run: |
+          ANSIBLE_HOST_KEY_CHECKING=False \
           ansible-playbook \
+          -u ec2-user \
           -i inventory.ini \
           --private-key key.pem \
           ansible/install-docker.yml
