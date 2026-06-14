@@ -21,7 +21,7 @@ resource "aws_instance" "web" {
 
 resource "aws_security_group" "web" {
 
-  name = "cicd-web-2"
+  name = "cicd-web-3"
 
   ingress {
 

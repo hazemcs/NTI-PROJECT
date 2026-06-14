@@ -57,6 +57,14 @@ jobs:
         run: |
           echo "[web]" > inventory.ini
           echo "$PUBLIC_IP" >> inventory.ini
+          
+      - name: Test SSH
+        run: |
+          ssh \
+          -o StrictHostKeyChecking=no \
+          -i key.pem \
+          ec2-user@$PUBLIC_IP \
+          "echo SSH WORKS"
 
       - name: Run Ansible
         run: |
@@ -65,13 +73,7 @@ jobs:
           --private-key key.pem \
           ansible/install-docker.yml
 
-      - name: Test SSH
-        run: |
-          ssh \
-          -o StrictHostKeyChecking=no \
-          -i key.pem \
-          ec2-user@$PUBLIC_IP \
-          "echo SSH WORKS"
+
           
       - name: Docker Login
         uses: docker/login-action@v3
